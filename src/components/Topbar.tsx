@@ -8,7 +8,7 @@ export default function Topbar() {
   const primaryBlue = '#007BFF'; // Change later
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position="static" sx={{ backgroundColor: '#ffffff', boxShadow: 'none' }}>
         <Toolbar>
           {/* Probably no need to get fancy on dynamically setting the width and height */}

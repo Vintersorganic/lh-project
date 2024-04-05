@@ -1,4 +1,4 @@
-import BasicTable from "./components/BasicTable";
+import BasicTable from "../components/BasicTable";
 
 export default function Home() {
   return (  

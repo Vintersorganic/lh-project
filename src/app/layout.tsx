@@ -3,7 +3,7 @@ import "./globals.css";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from "@/theme";
-import Topbar from "./components/Topbar";
+import Topbar from "../components/Topbar";
 
 export const metadata: Metadata = {
   title: "Legit.Health",
@@ -20,11 +20,9 @@ export default function RootLayout({
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
+            <Topbar />
             <main>
-              <Topbar />
-              <div>
-                {children}
-              </div>
+              {children}
             </main>
           </ThemeProvider>
         </AppRouterCacheProvider>

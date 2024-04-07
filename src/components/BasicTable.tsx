@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   Avatar,
   Table,
@@ -13,22 +13,26 @@ import {
   Tooltip,
   TablePagination,
   Fade,
-  Box
-} from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Link from 'next/link'
-import { fetchUsersPaginated } from '@/services/users';
-import { useEffect, useState } from 'react';
-import { ApiResponseListUsers, User } from '@/utils/types';
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { generatePaginationOptions } from '@/utils/helpers';
+  Box,
+} from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Link from "next/link";
+import { fetchUsersPaginated } from "@/services/users";
+import { useEffect, useState } from "react";
+import { ApiResponseListUsers, User } from "@/utils/types";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { generatePaginationOptions } from "@/utils/helpers";
 
 export default function UserListPage() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
 
-  const { data: userList, error, isPending } = useQuery<ApiResponseListUsers, Error>({
-    queryKey: ['users', page, rowsPerPage],
+  const {
+    data: userList,
+    error,
+    isPending,
+  } = useQuery<ApiResponseListUsers, Error>({
+    queryKey: ["usersPaginated", page, rowsPerPage],
     queryFn: () => fetchUsersPaginated(page + 1, rowsPerPage),
     placeholderData: keepPreviousData,
   });
@@ -37,7 +41,9 @@ export default function UserListPage() {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0); // Reset back to the first page with the new number of rows
   };
@@ -48,10 +54,15 @@ export default function UserListPage() {
   }, [rowsPerPage]);
 
   if (isPending) return <div>Loading...</div>;
-  if (error) return <div>Error: {error instanceof Error ? error.message : 'An error occurred'}</div>;
+  if (error)
+    return (
+      <div>
+        Error: {error instanceof Error ? error.message : "An error occurred"}
+      </div>
+    );
 
   return (
-    <Fade in={true} timeout={500}>
+    <Fade in={true} timeout={800}>
       <Box>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -67,14 +78,21 @@ export default function UserListPage() {
             <TableBody>
               {userList?.data.map((user: User) => (
                 <TableRow key={user.id}>
-                  <TableCell >
-                    <Avatar alt={`${user.first_name} ${user.last_name}`} src={user.avatar} />
+                  <TableCell>
+                    <Avatar
+                      alt={`${user.first_name} ${user.last_name}`}
+                      src={user.avatar}
+                    />
                   </TableCell>
                   <TableCell>
-                    <Typography variant="subtitle2">{user.first_name}</Typography>
+                    <Typography variant="subtitle2">
+                      {user.first_name}
+                    </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="subtitle2">{user.last_name}</Typography>
+                    <Typography variant="subtitle2">
+                      {user.last_name}
+                    </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="text.secondary">

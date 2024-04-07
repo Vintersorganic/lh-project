@@ -3,17 +3,20 @@ import { AppBar, Toolbar, IconButton, InputBase, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Topbar() {
   const primaryBlue = '#007BFF'; // Change later
 
   return (
     <Box>
-      <AppBar position="static" sx={{ backgroundColor: '#ffffff', boxShadow: 'none' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#ffffff' }}>
         <Toolbar>
           {/* Probably no need to get fancy on dynamically setting the width and height */}
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-            <Image src="/assets/Legit-Health_logo.png" alt="Logo" width={225} height={30} priority layout="fixed" />
+            <Link href={'/'}>
+              <Image src="/assets/Legit-Health_logo.png" alt="Logo" width={225} height={30} priority layout="fixed" />
+            </Link>
           </Box>
 
           {/* Add button for creating user */}

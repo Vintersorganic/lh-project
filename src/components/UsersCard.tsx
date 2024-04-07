@@ -1,6 +1,4 @@
-"use client";
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+// With a bit more time would probably add something like react-swippeable to hide the arrows on mobile but change users by swipping.
 import {
   Avatar,
   Card,
@@ -13,33 +11,14 @@ import {
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Link from "next/link";
-import { fetchUser } from "@/services/users";
 import { ApiResponseSingleUser } from "@/utils/types";
-import { useQuery } from "@tanstack/react-query";
 
-export default function UsersCard() {
-  const pathname = usePathname();
-  const [userId, setUser] = useState<string | undefined>(undefined);
+interface UsersCardProps {
+  user?: ApiResponseSingleUser;
+  onUserChange: (direction: "next" | "previous") => void;
+}
 
-  useEffect(() => {
-    const userId = pathname.split("/").pop();
-    setUser(userId);
-  }, [pathname]);
-
-  const { data: user } = useQuery<ApiResponseSingleUser, Error>({
-    queryKey: ["user", userId],
-    queryFn: () => fetchUser(userId),
-    enabled: !!userId,
-  });
-
-  const handleUserChangeUrl = (direction: "next" | "previous") => {
-    if (!userId) return "/users";
-    const currentId = parseInt(userId, 10);
-    if (isNaN(currentId)) return "/users";
-    const newId = direction === "next" ? currentId + 1 : currentId - 1;
-    return `/users/${newId}`;
-  };
-
+const UsersCard: React.FC<UsersCardProps> = ({ user, onUserChange }) => {
   return (
     <Box
       sx={{
@@ -49,11 +28,16 @@ export default function UsersCard() {
         mt: 4,
       }}
     >
-      <Link href={handleUserChangeUrl("previous")}>
-        <Button sx={{ mr: 2, color: "primary.main" }}>
-          <ArrowBackIosIcon />
-        </Button>
-      </Link>
+      <Button
+        sx={{
+          display: { xs: "none", sm: "block" },
+          mr: 1,
+          color: "primary.main",
+        }}
+        onClick={() => onUserChange("previous")}
+      >
+        <ArrowBackIosIcon />
+      </Button>
       <Fade in={true} timeout={800}>
         <Card raised sx={{ width: 360, textAlign: "center" }}>
           <Box
@@ -76,17 +60,26 @@ export default function UsersCard() {
             </Typography>
             <Box sx={{ mt: 2 }}>
               <Link href="/" passHref>
-                <Button variant="contained">Back to List</Button>
+                <Button variant="contained" color="primary">
+                  Back to List
+                </Button>
               </Link>
             </Box>
           </CardContent>
         </Card>
       </Fade>
-      <Link href={handleUserChangeUrl("next")} passHref>
-        <Button sx={{ ml: 2, color: "primary.main" }}>
-          <ArrowForwardIosIcon />
-        </Button>
-      </Link>
+      <Button
+        sx={{
+          display: { xs: "none", sm: "block" },
+          ml: 1,
+          color: "primary.main",
+        }}
+        onClick={() => onUserChange("next")}
+      >
+        <ArrowForwardIosIcon />
+      </Button>
     </Box>
   );
-}
+};
+
+export default UsersCard;

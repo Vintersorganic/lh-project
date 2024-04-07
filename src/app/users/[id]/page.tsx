@@ -1,7 +1,48 @@
-import { Box, Container } from "@mui/material";
+"use client";
+import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
+import { Container, Box } from "@mui/material";
 import UsersCard from "@/components/UsersCard";
+import { fetchUser } from "@/services/users"; // Assuming this is the function to fetch user data
+import { ApiResponseSingleUser } from "@/utils/types"; // Assuming this is the type definition for the user data
+import { usePathname } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "@/components/Loader";
 
 export default function UserDetailsPage() {
+  const pathname = usePathname();
+  const [userId, setUserId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const userId = pathname.split("/").pop();
+    setUserId(userId);
+  }, [pathname]);
+
+  const {
+    data: user,
+    isFetching,
+    error,
+  } = useQuery<ApiResponseSingleUser, Error>({
+    queryKey: ["user", userId],
+    queryFn: () => fetchUser(userId),
+    enabled: !!userId,
+  });
+
+  const handleUserChange = (direction: "next" | "previous") => {
+    const currentId = parseInt(userId ?? "0", 10);
+    if (isNaN(currentId)) return;
+    const newId = direction === "next" ? currentId + 1 : currentId - 1;
+    setUserId(newId.toString());
+  };
+
+  useEffect(() => {
+    if (error) {
+      redirect("/not-found");
+    }
+  }, [error]);
+
+  if (isFetching) return <Loader />;
+
   return (
     <Container
       maxWidth="sm"
@@ -9,7 +50,6 @@ export default function UserDetailsPage() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        minHeight: `calc(100vh - ${64}px)`,
       }}
     >
       <Box
@@ -20,7 +60,7 @@ export default function UserDetailsPage() {
           alignItems: "center",
         }}
       >
-        <UsersCard />
+        <UsersCard user={user} onUserChange={handleUserChange} />
       </Box>
     </Container>
   );

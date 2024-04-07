@@ -55,7 +55,7 @@ export const fetchUser = async (
   if (!userId) {
     return Promise.reject(new Error("Invalid or missing user ID"));
   }
-  const response = await fetch(`${USERS_ENDPOINT}/${userId}`);
+  const response = await fetch(`${USERS_ENDPOINT}/${userId}?delay=1`);
   if (!response.ok) {
     throw new Error("Failed to fetch user");
   }

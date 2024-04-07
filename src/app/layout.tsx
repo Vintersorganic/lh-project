@@ -6,6 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@/theme";
 import Topbar from "../components/Topbar";
 import ReactQueryProvider from "@/utils/providers/ReactQueryProvider";
+import { Container } from "@mui/material";
 
 export const metadata: Metadata = {
   title: "Legit.Health",
@@ -26,7 +27,16 @@ export default function RootLayout({
             <CssBaseline />
             <ReactQueryProvider>
               <Topbar />
-              <main className="main-container">{children}</main>
+              <Container
+                sx={{
+                  minHeight: `calc(100vh - ${64}px)`,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <main className="main-container">{children}</main>
+              </Container>
             </ReactQueryProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>

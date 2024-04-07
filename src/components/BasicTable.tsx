@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { ApiResponseListUsers, User } from "@/utils/types";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { generatePaginationOptions } from "@/utils/helpers";
+import Loader from "./Loader";
 
 export default function UserListPage() {
   const [page, setPage] = useState(0);
@@ -53,7 +54,7 @@ export default function UserListPage() {
     window.scrollTo(0, 0);
   }, [rowsPerPage]);
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <Loader />;
   if (error)
     return (
       <div>
@@ -68,20 +69,21 @@ export default function UserListPage() {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Profile Picture</TableCell>
+                <TableCell align="center">Profile Picture</TableCell>
                 <TableCell>First Name</TableCell>
                 <TableCell>Last Name</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>View Profile</TableCell>
+                <TableCell align="center">View Profile</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {userList?.data.map((user: User) => (
                 <TableRow key={user.id}>
-                  <TableCell>
+                  <TableCell align="center">
                     <Avatar
                       alt={`${user.first_name} ${user.last_name}`}
                       src={user.avatar}
+                      sx={{ marginLeft: "auto", marginRight: "auto" }}
                     />
                   </TableCell>
                   <TableCell>
@@ -99,9 +101,14 @@ export default function UserListPage() {
                       {user.email}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Tooltip title="View Profile">
-                      <IconButton component={Link} href={`/users/${user.id}`}>
+                      <IconButton
+                        component={Link}
+                        href={`/users/${user.id}`}
+                        sx={{ marginLeft: "auto", marginRight: "auto" }}
+                        color="primary"
+                      >
                         <AccountCircleIcon />
                       </IconButton>
                     </Tooltip>

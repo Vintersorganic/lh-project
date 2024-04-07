@@ -17,7 +17,11 @@ export default function UserSearch() {
   if (isLoading) return null;
 
   return (
-    <Container disableGutters sx={{ width: 300 }}>
+    // Would add a search icon and a little modal for mobile devices probably
+    <Container
+      disableGutters
+      sx={{ width: 300, display: { xs: "none", sm: "block" } }}
+    >
       <Autocomplete
         options={userOptions}
         freeSolo
@@ -33,18 +37,18 @@ export default function UserSearch() {
         )}
         renderOption={(props, option: User) => (
           // Would be good to have a Link component with a style reset.
-          <Link
-            key={option.id}
-            href={`/users/${option.id}`}
-            style={{
-              color: "black",
-              textDecoration: "none",
-              fontWeight: "400",
-            }}
-            passHref
-          >
-            <li {...props}>{`${option.first_name} ${option.last_name}`}</li>
-          </Link>
+          <li {...props} key={option.id}>
+            <Link
+              href={`/users/${option.id}`}
+              style={{
+                color: "black",
+                textDecoration: "none",
+                fontWeight: "400",
+              }}
+            >
+              {`${option.first_name} ${option.last_name}`}
+            </Link>
+          </li>
         )}
       />
     </Container>

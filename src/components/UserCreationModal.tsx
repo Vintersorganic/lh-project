@@ -112,7 +112,7 @@ export default function UserCreationModalForm({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAndReset}>Cancel</Button>
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" color="primary" disabled={isSubmitting}>
             Create
           </Button>
         </DialogActions>

@@ -33,7 +33,6 @@ export default function UserListPage() {
     placeholderData: keepPreviousData,
   });
 
-  // Handle page change
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
   };

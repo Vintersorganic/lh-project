@@ -1,12 +1,19 @@
-import * as React from 'react';
-import { AppBar, Toolbar, IconButton, InputBase, Box } from '@mui/material';
+'use client'
+import { useState } from 'react';
+import { AppBar, Toolbar, IconButton, InputBase, Box, Snackbar } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Image from 'next/image';
 import Link from 'next/link';
+import UserCreationModalForm from './UserCreationModal';
 
 export default function Topbar() {
-  const primaryBlue = '#007BFF'; // Change later
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const primaryBlue = '#007BFF';
+
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
 
   return (
     <Box>
@@ -19,12 +26,11 @@ export default function Topbar() {
             </Link>
           </Box>
 
-          {/* Add button for creating user */}
-          <IconButton aria-label="add" sx={{ color: primaryBlue }}>
+          <IconButton aria-label="add" sx={{ color: primaryBlue }} onClick={handleModalOpen}>
             <AddBoxIcon />
           </IconButton>
 
-          {/* Search Input Field, might do later */}
+          {/* TODO: Search Input Field */}
           <Box sx={{
             display: 'flex',
             alignItems: 'center',
@@ -43,6 +49,9 @@ export default function Topbar() {
           </Box>
         </Toolbar>
       </AppBar>
+
+      {/* TODO: Better handling of modals. See: https://levelup.gitconnected.com/mastering-modals-in-next-js-a-comprehensive-guide-475c0d1629ab */}
+      <UserCreationModalForm open={modalOpen} handleClose={handleModalClose} />
     </Box>
   );
 }

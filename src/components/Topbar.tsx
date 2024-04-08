@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { AppBar, Toolbar, IconButton, Paper, Box } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Box } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,7 +25,6 @@ export default function Topbar() {
               width={225}
               height={30}
               priority
-              layout="fixed"
             />
           </Link>
 

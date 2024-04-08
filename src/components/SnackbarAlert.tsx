@@ -16,7 +16,7 @@ export default function SnackbarAlert({
   open,
   message,
   severity = "info",
-  duration = 1000,
+  duration = 1500,
   position = { vertical: "bottom", horizontal: "center" },
   onClose,
 }: SnackbarAlertProps) {

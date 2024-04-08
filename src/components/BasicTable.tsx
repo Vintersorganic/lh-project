@@ -13,7 +13,7 @@ import {
   Tooltip,
   TablePagination,
   Fade,
-  Box,
+  Container,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Link from "next/link";
@@ -32,6 +32,7 @@ export default function UserListPage() {
     data: userList,
     error,
     isPending,
+    isLoading
   } = useQuery<ApiResponseListUsers, Error>({
     queryKey: ["usersPaginated", page, rowsPerPage],
     queryFn: () => fetchUsersPaginated(page + 1, rowsPerPage),
@@ -54,7 +55,7 @@ export default function UserListPage() {
     window.scrollTo(0, 0);
   }, [rowsPerPage]);
 
-  if (isPending) return <Loader />;
+  if (isPending || isLoading) return <Loader />;
   if (error)
     return (
       <div>
@@ -64,7 +65,7 @@ export default function UserListPage() {
 
   return (
     <Fade in={true} timeout={800}>
-      <Box>
+      <Container sx={{ paddingTop: 4 }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -78,7 +79,7 @@ export default function UserListPage() {
             </TableHead>
             <TableBody>
               {userList?.data.map((user: User) => (
-                <TableRow key={user.id}>
+                <TableRow key={user.id} hover>
                   <TableCell align="center">
                     <Avatar
                       alt={`${user.first_name} ${user.last_name}`}
@@ -127,7 +128,7 @@ export default function UserListPage() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Box>
+      </Container>
     </Fade>
   );
 }

@@ -27,8 +27,8 @@ export interface ApiResponseSingleUser {
 export type FormFields = Omit<User, "id" | "avatar">;
 
 export const UserSchema: ZodType<FormFields> = z.object({
-  first_name: z.string().min(3, { message: "First name is required" }),
-  last_name: z.string().min(2, { message: "Last name is required" }),
+  first_name: z.string().min(1, { message: "First name is required" }),
+  last_name: z.string().min(1, { message: "Last name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
 });
 

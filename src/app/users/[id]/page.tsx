@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Container, Box } from "@mui/material";
 import UsersCard from "@/components/UsersCard";
 import { fetchUser } from "@/services/users"; // Assuming this is the function to fetch user data
@@ -11,6 +11,7 @@ import Loader from "@/components/Loader";
 
 export default function UserDetailsPage() {
   const pathname = usePathname();
+  const router = useRouter();
   const [userId, setUserId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -33,6 +34,8 @@ export default function UserDetailsPage() {
     if (isNaN(currentId)) return;
     const newId = direction === "next" ? currentId + 1 : currentId - 1;
     setUserId(newId.toString());
+    // Sync the URL.
+    router.push(`/users/${newId}`);
   };
 
   useEffect(() => {

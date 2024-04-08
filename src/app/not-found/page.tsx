@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { Container, Typography, Link as MUILink, Box } from "@mui/material";
+import { Container, Typography, Grow, Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import lottie from "lottie-web";
 import Link from "next/link";
@@ -32,34 +32,39 @@ const ErrorPage = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          my: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 2,
-        }}
-      >
-        <div ref={animationContainer} style={{ width: "100%", height: 350 }} />
-
-        <Typography variant="h5" component="h1" gutterBottom>
-          Oops, the resource you're looking for doesn't exist.
-        </Typography>
-        <Typography textAlign="center">
-          Try going back to the <Link href={"/"}>user list</Link> and find what
-          you were looking for or go to a{" "}
-          <Typography
-            style={{ cursor: "pointer", textDecoration: "underline" }}
-            onClick={handleGoRandomUser}
-            color="secondary"
-          >
-            go to a random user.
+    <Grow in={true}>
+      <Container maxWidth="sm">
+        <Box
+          sx={{
+            my: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <div
+            ref={animationContainer}
+            style={{ width: "100%", height: 350 }}
+          />
+          <Typography variant="h5" component="h1" gutterBottom>
+            Oops, the resource you&lsquo;re looking for doesn&lsquo;t exist.
           </Typography>
-        </Typography>
-      </Box>
-    </Container>
+          <Typography textAlign="center">
+            Try going back to the <Link href={"/"}>user list</Link> and find
+            what you were looking for or{" "}
+            <Typography
+              component="span"
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+              onClick={handleGoRandomUser}
+              color="secondary"
+            >
+              go to a random user.
+            </Typography>
+          </Typography>
+        </Box>
+      </Container>
+    </Grow>
   );
 };
 
